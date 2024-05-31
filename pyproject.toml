@@ -1,0 +1,52 @@
+[build-system]
+
+# сборщики
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SRW-10"
+
+# Должен лежать в корне проекта
+readme = "README.md"
+
+# Требуемая версия питончика
+requires-python = ">=3.11.0"
+
+# Зависимости пакетика, причём версии можно указывать с помощью == и >=
+dependence = [
+	"requests",
+]
+
+
+[project.optional-dependencies]
+
+# Зависимости для тестирования
+test = [
+	"pytest",
+]
+# Зависимости для разработки:
+dev = [
+	"black",
+	"flake8",
+]
+
+[project.urls]
+# Тут можно указать ссылку на репозиторий на гитхабе.
+
+
+[tool.black]
+line-length = 90
+target-version = ['py311']
+extend-exclude = '''
+(
+	migrations	# Django DB migration
+)
+'''
+[tool.isort]
+profile = "black"
+line-length = 90
+multi_line_output = 3
+skip_gitignore = true
+skip_glob = ["**/migrations/*", "**/settings/*"]
+src_path = ['']
