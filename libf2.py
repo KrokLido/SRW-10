@@ -1,29 +1,28 @@
-## Версия 3.
-## Список методов:
+# Версия 3.
+# Список методов:
 
-## L_FROM_FILE(filename)
-## L_IN_FILE(filename, l_data)
+# L_FROM_FILE(filename)
+# L_IN_FILE(filename, l_data)
 
-## D_FROM_FILE(filename)
-## D_IN_FILE(filename, d_in)
-## D_FROM_FILE_FLOAT(filename)
-## D_IN_FILE_FLOAT(filename, d_in)
-## D_PRINT(d_in)
+# D_FROM_FILE(filename)
+# D_IN_FILE(filename, d_in)
+# D_FROM_FILE_FLOAT(filename)
+# D_IN_FILE_FLOAT(filename, d_in)
+# D_PRINT(d_in)
 
-## files_sort(fname, dirname)
-## cleandir(dirname)
-## f_remove(fname)
+# files_sort(fname, dirname)
+# cleandir(dirname)
+# f_remove(fname)
 
-## moving_to_csv		(ПРИМЕР)
-## csv_write(filename)
-## csv_read(filename)
+# moving_to_csv		(ПРИМЕР)
+# csv_write(filename)
+# csv_read(filename)
 
-## input_in_csv()
-##
-## 		РИСОВАНИЕ ГРАФИКА И СТРОИТЕЛЬСТВО *.csv!
+# input_in_csv()
+#
+# 		РИСОВАНИЕ ГРАФИКА И СТРОИТЕЛЬСТВО *.csv!
 
 import os
-import shutil
 import csv
 
 
@@ -32,7 +31,7 @@ import csv
 # Делает:				Читает файл.
 # Возвращает:			Конвертацию строки в число <float>.
 def L_FROM_FILE(filename):
-    if (filename == None) or (filename == ""):
+    if (filename is None) or (filename == ""):
         return "ERROR: not filename."
     l_get = get_lines(filename)
     l_ret = convert_lines(l_get)
@@ -70,7 +69,7 @@ def convert_lines(l_str):
 # Делает:				Записывает данные в файл столбиком.
 # возвращает:			<None>
 def L_IN_FILE(filename, l_data):
-    if (filename == None) or (filename == ""):
+    if (filename is None) or (filename == ""):
         return "ERROR: not filename."
     f = open(filename, "w+")
     for elem in l_data:
@@ -84,7 +83,7 @@ def L_IN_FILE(filename, l_data):
 # Делает:				Читает данные, формирует словарь.
 # Возвращает:			Словарь данных.
 def D_FROM_FILE(filename):
-    if (filename == None) or (filename == ""):
+    if (filename is None) or (filename == ""):
         return "ERROR: not filename."
     f = open(filename, "r")
     l_str = []
@@ -104,7 +103,7 @@ def D_FROM_FILE(filename):
 # Делает:				Осуществляет запись данных.
 # Возвращает:			Заглушку.
 def D_IN_FILE_FLOAT(filename, d_in):
-    if (filename == None) or (filename == ""):
+    if (filename is None) or (filename == ""):
         return "ERROR: not filename."
     f = open(filename, "w+")
     for key in d_in:
@@ -124,7 +123,7 @@ def l_clean(l_in):
 # Делает:				Читает данные, формирует словарь.
 # Возвращает:			Словарь данных.
 def D_FROM_FILE_FLOAT(filename):
-    if (filename == None) or (filename == ""):
+    if (filename is None) or (filename == ""):
         return "ERROR: not filename."
     f = open(filename, "r")
     l_str = []
@@ -144,7 +143,7 @@ def D_FROM_FILE_FLOAT(filename):
 # Делает:				Осуществляет запись данных.
 # Возвращает:			Заглушку.
 def D_IN_FILE(filename, d_in):
-    if (filename == None) or (filename == ""):
+    if (filename is None) or (filename == ""):
         return "ERROR: not filename."
     f = open(filename, "w+")
     for key in d_in:
@@ -159,7 +158,7 @@ def D_IN_FILE(filename, d_in):
 # Возвращает:			Заглушку.
 def D_PRINT(d_in):
     print("D_PRINT")
-    if d_in == None:
+    if d_in is None:
         print(None)
         return
     for key in d_in:
@@ -211,9 +210,9 @@ def cleandir(dirname):
     # Получение полного пути.
     file_source = os.getcwd()
 
-    ## Удаление системного файла.
+    # Удаление системного файла.
     # hidden_path = file_source+'/'+dirname+'/'+'.directory'
-    ##os.remove(hidden_path)
+    # os.remove(hidden_path)
     # f_remove(hidden_path)
 
     # Зачистка каталога.
@@ -248,7 +247,7 @@ def moving_to_csv():
     with open("atmosphere_GOST4401_81_data_rho.txt") as f_input:
         for line in f_input:
             line = line.replace("\n", "")
-            l_line = line.split(",")
+            # l_line = line.split(",")
             row0.append(line.split(" ")[0])
             row1.append(line.split(" ")[1])
 
@@ -289,34 +288,33 @@ def csv_write(filename, lx, ly):
 # 	Возвращает:			1. <lx>
 # 						2. <ly>
 def csv_read(filename):
-    import csv
 
     lx = []
     ly = []
     with open(filename) as f_input:
         for line in f_input:
             line = line.replace("\n", "")
-            l_line = line.split(",")
+            # l_line = line.split(",")
             lx.append(line.split(" ")[0])
             ly.append(line.split(" ")[1])
-    f_out.close()
+    # f_out.close()
     return (lx, ly)
 
 
 # Процедура позволяет с клавиатуры считать данные и ввести их в csv-таблицу.
 # Получает:				ввод с клавиатуры(ручная забивка таблиц)
-def input_in_csv():
-    f_out = open("atmosphere_GOST4401_81.csv", "a")
-    csv.register_dialect("csv_table", delimiter=",", lineterminator="\n")
-    fcsv = csv.writer(f_out)
-    counter = -1
-    while True:
-        counter += 1
-        alt = input("alt: ")
-        rho = input("rho:")
-        print()
-        lwr = [alt, rho]
-        fcsv.writerow(lwr)
+# def input_in_csv():
+#    f_out = open("atmosphere_GOST4401_81.csv", "a")
+#    csv.register_dialect("csv_table", delimiter=",", lineterminator="\n")
+#    fcsv = csv.writer(f_out)
+#    counter = -1
+#    while True:
+#        counter += 1
+#        alt = input("alt: ")
+#        rho = input("rho:")
+#        print()
+#        lwr = [alt, rho]
+#        fcsv.writerow(lwr)
 
 
 # Процедура позволяет с клавиатуры считать данные и ввести их в csv-таблицу.
@@ -348,7 +346,7 @@ def input_in_csv():
 
     while True:
         lwr = strin()
-        if lwr == None:
+        if lwr is None:
             f.close()
             return ()
         fcsv.writerow(lwr)
@@ -361,7 +359,6 @@ def input_in_csv():
 # 	Возвращает:			1. Создаёт в директории <cxyz> график данного коэффициента.
 # 						2. Создаёт там же таблицу в формате *.csv.
 def make_cxyz(target):
-    import libgeometry as libline
     import matplotlib.pyplot as plt
     import libf2 as libf
 

@@ -14,7 +14,6 @@
 # 	Возвращает:			1. Создаёт в директории <cxyz> график данного коэффициента.
 # 						2. Создаёт там же таблицу в формате *.csv.
 def make_cxyz(target):
-    import libgeometry as libline
 
     # import matplotlib.pyplot as plt
     import libf2 as libf
@@ -128,17 +127,17 @@ def get_value(table, xy, flag=True):
     #    counter +=1
     #    lx.append(elem)
     #    ly.append(table['y'][counter])
-    if type(lx[0]) != float:
+    if type(lx[0]) is not float:
         counter = 0
         for elem in lx:
             lx[counter] = float(elem)
             counter += 1
-    if type(ly[0]) != float:
+    if type(ly[0]) is not float:
         counter = 0
         for elem in ly:
             ly[counter] = float(elem)
             counter += 1
-    if type(xy) != float:
+    if type(xy) is not float:
         xy = float(xy)
 
     # 2. Запустить обсчёт и вернуть значения.

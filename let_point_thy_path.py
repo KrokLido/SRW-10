@@ -10,7 +10,6 @@
 #
 #
 import math
-from trigonometria import cos, sin
 
 # 	=	Объёмный мир	=
 

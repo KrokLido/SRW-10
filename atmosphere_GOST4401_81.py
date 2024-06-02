@@ -72,7 +72,7 @@ def f_rho(
 # Возвращает:			Плотность, как это не странно.
 def f_rho_dra(altitude, dra):
 
-    l_alt = dra["l_alt"].copy()
+    # l_alt = dra["l_alt"].copy()
     l_rho = dra["l_rho"].copy()
 
     if altitude <= 5000:
@@ -183,22 +183,6 @@ def csv_isfile():
             lineto = str(elem) + "," + str(l_rho[counter]) + "\n"
             f_to.write(lineto)
         f_to.close()
-
-
-# Процедура для дополнения плотностей с клавиатуры.
-def input_from_keyboard(altitude):
-
-    f_out = open("atmosphere_GOST4401_81.csv", "a")
-    csv.register_dialect("csv_table", delimiter=",", lineterminator="\n")
-    fcsv = csv.writer(f_out)
-    counter = -1
-    while True:
-        counter += 1
-        alt = input("alt: ")
-        rho = input("rho:")
-        lwr = [alt, rho]
-        fcsv.writerow(lwr)
-    f_out.close()
 
 
 if __name__ == "__main__":

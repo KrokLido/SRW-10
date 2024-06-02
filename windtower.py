@@ -1,9 +1,11 @@
 from trigonometria import sin, cos, asin
-import libf2
+
+# import libf2
 import atmosphere_GOST4401_81 as atm
 import let_point_thy_path as lptp
 import cxyz
-import math
+
+# import math
 
 
 def geometric_calculations(m_payload, mu_0, mu_1, yakor0, yakor1, I10, I11, d, beta=1.4):
@@ -168,11 +170,11 @@ def reteta(
         print("xc = %s, yc = %s, xr = %s, yr = %s" % (xc, yc, xr, yr))
         print(delta, "\t\t", teta_r, "\t\t", teta_new)
         print(length(xr, yr, xc, yc))
-        dphi = (-vc * sin(teta_r - teta_c)) / length(xc, yc, xr, yr)
+        # dphi = (-vc * sin(teta_r - teta_c)) / length(xc, yc, xr, yr)
         if abs(delta) > 10 and vr > 1000:
             print("Это конец, я тут умру и меня отчислят")
             print(length(xr, yr, xc, yc))
-            a = input()
+            # a = input()
         if yr > 100:
 
             if delta < 0:
@@ -273,7 +275,7 @@ def main_system(d, dt=0.01):
     t = 0
 
     lrv = []
-    lcv = []
+    # lcv = []
 
     lrm = []
     lt = []
@@ -281,7 +283,7 @@ def main_system(d, dt=0.01):
     altmax = atm.getmax() - 1000
     # print("ALTMAX = ", altmax)
     dcx = {}
-    dcy = {}
+    # dcy = {}
     dcx["lx"], dcx["ly"] = cxyz.get_table("cx")
     ldc = []
     ldc.append(dcx)
@@ -296,8 +298,8 @@ def main_system(d, dt=0.01):
         direction_law = d["direction_law"]
         direction_law_preteta = d["direction_law_preteta"]
 
-    mfuel_0 = d["m_0fuel"]
-    mfuel_1 = d["m_1fuel"]
+    # mfuel_0 = d["m_0fuel"]
+    # mfuel_1 = d["m_1fuel"]
 
     dbell = {}
     dbell["v"] = d["v_start"]
@@ -456,7 +458,7 @@ def main_system(d, dt=0.01):
     print("t = ", t)
     # Пассивный
     dbell["p"] = 0
-    mlimit = d["m_1"] - d["m_1fuel"]
+    # mlimit = d["m_1"] - d["m_1fuel"]
     while dbell["v"] / 360 > d["M_passive_end"]:
         t += dt
         xc += vc * cos(tetac)

@@ -1,22 +1,25 @@
 #!/bin/bash
 
-function _prestart {
-echo "Function _prestart on run..."
-rm SRW-1*
-}
+#function _prestart {
+#echo "Function _prestart on run..."
+#rm SRW-1*
+#}
 
 
-function black_flake8 {
-echo "Function blake_flake8 on run..."
-python3.11 -m black *
-python3.11 -m flake8 *
-}
+#function black_flake8 {
+#echo "Function blake_flake8 on run..."
+#python3.11 -m black *
+#python3.11 -m flake8 *
+#}
 
 
 # Prestart
+echo "Prestart..."
 rm SRW-1*
 rm DUMP*
+echo "black *.py	:"
 python3.11 -m black *.py
+echo "flake8 *.py	:"
 python3.11 -m flake8 *.py
 
 
@@ -26,12 +29,13 @@ echo "Variants of desicions:"
 echo "a = ВЫСТРЕЛ Простая пристрелка(to_point light)"
 echo "b = ПОДБОР Вычисление внешнебаллистических характеристик"
 echo "c = ПОЛЕ Построение полей по располагаемым характеристикам(fields to_point)"
-echo "d = ПОЛЕ Построение полей по быстролетящим(более 100 м/с) целям"
+echo "d(?) = ПОЛЕ Построение полей по быстролетящим(более 100 м/с) целям"
 echo "e = ВЫСТРЕЛ Пристрелка по закону наведения по двум точкам с дистанцией упреждения"
 echo "f = ПОЛЕ Построение полей по располагаемым характеристикам(fields 2_point_prelength)"
 echo 'g = ВЫСТРЕЛ самонаведение по методу параллельного сближения с целью'
 echo 'gf = ПОЛЕ параллельное сближение с целью'
-echo 'gfd = ПОЛЯ стрельбы по целям со скоростью 100, 600, 1000 м/с.'
+echo 'gfd = ПОЛЯ стрельбы по целям со скоростью generator(100, 2500) м/с.'
+echo 'h = ВЫСТРЕЛ без отстрела стартовика методом параллельного сближения'
 
 read readed1 readed2
 echo "readed1 = $readed1"
@@ -47,10 +51,13 @@ gnuplot graphic_xy.gpi
 gnuplot graphic_m.gpi
 gnuplot graphic_vsum.gpi
 
-#rm DUMP*
+rm DUMP*
 okular SRW-1_Vr_sum.jpg
 okular SRW-1_xy.jpg
 okular SRW-1_m.jpg
+
+mkdir -p scenario_a
+mv SRW-1* ./scenario_a
 
 #	READED "B"
 elif [ $readed1 = "b" ]
@@ -67,6 +74,9 @@ okular SRW-1_Vr_sum.jpg
 okular SRW-1_xy.jpg
 okular SRW-1_m.jpg
 
+mkdir -p scenario_b
+mv SRW-1* ./scenario_b
+
 
 #	READED "C"
 elif [ $readed1 = "c" ]
@@ -76,15 +86,14 @@ python3.11 2d_main.py fields to_point
 gnuplot graphic_fields.gpi
 rm DUMP*
 okular SRW-1_field_xy.jpg
-#okular SRW-1_field.xz.jpg
-#okular SRW-1_field.yz.jpg
 
+mkdir -p scenario_c
+mv SRW-1* ./scenario_c
 
 #	READED "D"
 elif [ $readed1 = "d" ]
 then
 python3.11 2d_main.py fields_interceptor None
-
 
 
 #	READED "E"
@@ -100,6 +109,9 @@ okular SRW-1_Vr_sum.jpg
 okular SRW-1_xy.jpg
 okular SRW-1_m.jpg
 
+mkdir -p scenario_e
+mv SRW-1* ./scenario_e
+
 
 
 #	READED "F"
@@ -110,6 +122,9 @@ python3.11 2d_main.py two_point_field $readed2
 gnuplot graphic_fields.gpi
 rm DUMP*
 okular SRW-1_field_xy.jpg
+
+mkdir -p scenario_f
+mv SRW-1* ./scenario_f
 
 
 # 	READED "G"
@@ -125,7 +140,7 @@ okular SRW-1_Vr_sum.jpg
 okular SRW-1_xy.jpg
 okular SRW-1_m.jpg
 
-mkdir scenario_g
+mkdir -p scenario_g
 mv SRW-1* scenario_g
 
 # 	READED "GF"
@@ -136,30 +151,40 @@ gnuplot graphic_fields.gpi
 rm DUMP*
 okular SRW-1_field_xy.jpg
 
+mkdir -p scenario_gf
+mv SRW-1* ./scenario_gf
+
 #	READED "GFD"
 elif [ $readed1 = 'gfd' ]
 then
-python3.11 2d_main.py parallel_field_different 1
-gnuplot graphic_fields.gpi
-rm DUMP*
-#okular SRW-1_field_xy.jpg
-cp SRW-1_field_xy.jpg SRW-1_field_xy_1.jpg
-mkdir scenario_gfd
-mv SRW-1_field_xy_1.jpg ./scenario_gfd
 
-python3.11 2d_main.py parallel_field_different 6
-gnuplot graphic_fields.gpi
-rm DUMP*
-cp SRW-1_field_xy.jpg SRW-1_field_xy_6.jpg
-mv SRW-1_field_xy_6.jpg ./scenario_gfd
+mkdir -p scenario_gfd
+
+for vci in `seq 1 1 25`
+	do
+	python3.11 2d_main.py parallel_field_different 1
+	gnuplot graphic_fields.gpi
+	rm DUMP*
+	#okular SRW-1_field_xy.jpg
+	cp SRW-1_field_xy.jpg SRW-1_field_xy_$vci.jpg
+	mv SRW-1_field_xy_1.jpg ./scenario_gfd
+	done
 
 
-python3.11 2d_main.py parallel_field_different 10
-gnuplot graphic_fields.gpi
-rm DUMP*
-cp SRW-1_field_xy.jpg SRW-1_field_xy_10.jpg
-mv SRW-1_field_xy_10.jpg ./scenario_gfd
-rm SRW-1_field_xy.jpg
+# 	READED "H"
+elif [ $readed1 = 'h' ]
+then
+python3.11 2d_main.py non_firing_starting_stage parallel
+gnuplot graphic_xy.gpi
+gnuplot graphic_m.gpi
+gnuplot graphic_vsum.gpi
+
+okular SRW-1_Vr_sum.jpg
+okular SRW-1_xy.jpg
+okular SRW-1_m.jpg
+mkdir -p scenario_h
+mv SRW-1* scenario_h
+
 
 fi
 
