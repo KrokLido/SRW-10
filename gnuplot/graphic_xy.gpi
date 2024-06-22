@@ -1,0 +1,14 @@
+set title "SRW-1, XY"
+set grid xtics, ytics
+#separator ";"
+
+set xlabel "X"
+set ylabel "Y"
+#set yrange [0:60000]
+
+datafile = "DUMP_graphic_xy.txt"
+
+set terminal jpeg size 1900,1900
+set output "SRW-1_xy.jpg"
+
+plot datafile with lines title "XY"
