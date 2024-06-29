@@ -570,6 +570,9 @@ if __name__ == "__main__":
     elif first == "srw1_character":
         # Заглушка для нахождения характеристик ракеты по заданным дальностям полёта с нахождением таблиц данных для обстрела всех возможных скоростей целей по заданным тяговооружённостям.
         # На позициях <second> и <third> прилетает тяговооружённость стартового и маршевого режима (или ступеней) соответственно.
+        # Нужно обработать значения тяговооружённостей, чтобы нормально вытаскивать значения.
+        second = second.replace(",", ".")
+        third = third.replace(",", ".")
         ddata_object["vc"] = 0
         # 1. Нужно итеративно менять mu_0, mu_1, при заданных yakor_0, yakor_1, чтобы подобрать требуемую массу топлива.
         best = {}
@@ -588,17 +591,12 @@ if __name__ == "__main__":
         for imu0 in arimu0:
             ddata_rocket["mu_0"] = imu0
             for imu1 in arimu1:
-                print("imu0 = %s, imu1 = %s" % (imu0, imu1))
+                # print("imu0 = %s, imu1 = %s" % (imu0, imu1))
                 ddata_rocket["mu_1"] = imu1
-                if second == "without":
-                    dget = support_infrustructure_for_diff_yakors(
-                        float(second), float(third)
-                    )
-                else:
-                    dget = support_infrustructure()
+                dget = support_infrustructure_for_diff_yakors(float(second), float(third))
                 dfrom = windtower.main_system(dget)
                 if dfrom["flag"]:
-                    print(dfrom["answer"])
+                    # print(dfrom["answer"])
                     if best["m_sum"] is None:
                         best["m_sum"] = dget["m_sum"]
                         best["mu_0"] = imu0
@@ -609,13 +607,13 @@ if __name__ == "__main__":
                         best["mu_1"] = imu1
         f = open("RESULT_character.txt", "w")
         substring = "m:\t" + str(best["m_sum"]) + "\n"
-        print(substring)
+        # print(substring)
         f.write(substring)
         substring = "mu_0:\t" + str(best["mu_0"]) + "\n"
-        print(substring)
+        # print(substring)
         f.write(substring)
         substring = "mu_1:\t" + str(best["mu_1"]) + "\n"
-        print(substring)
+        # print(substring)
         f.write(substring)
         f.close()
 
